@@ -1,0 +1,205 @@
+#include <iostream>
+using namespace std;
+struct node
+{
+int data;
+node*next;
+};
+class SLL
+{
+private:
+node*head=NULL;
+public:
+void Insertbegin(){
+  node*newnode;
+  int n;
+  cout<<"Enter data part of the node:-"<<endl;
+  cin>>n;
+  newnode= new node();
+  newnode->data=n;
+  newnode->next=head;
+  head=newnode;
+}
+void Insertend(){
+  node*newnode;
+  int n;
+  cout<<"Enter data part of the node:-"<<endl;
+  cin>>n;
+  newnode= new node();
+  newnode->data=n;
+  newnode->next=NULL;
+  if(head==NULL){
+    head=newnode;
+  }
+  else{
+    node*temp;
+    temp=head;
+    while(temp->next!=NULL){
+      temp=temp->next;
+    }
+    temp->next=newnode;
+  }
+}
+void Deletebegin(){
+  head=head->next;
+}
+void Deleteend(){
+  node*temp;
+  node*temp1;
+  node*newnode;
+  int n;
+  cout<<"Enter data part of the node:-"<<endl;
+  cin>>n;
+  newnode= new node();
+  newnode->data=n;
+  temp=head->next;
+  temp1=head;
+  if(head==NULL){
+    delete(head);
+  }
+  else{
+  while(temp->next!=NULL){
+    temp1=temp;
+    temp=temp->next;
+  }
+    temp1->next=newnode;
+    }
+}
+void InsertatPosition()
+{
+  int n,count=0;
+  cout<<"Enter position you want to insert:-"<<endl;
+  cin>>n;
+  node*temp=head;
+  while(temp!=NULL){
+    temp=temp->next;
+    count++;
+  }
+  if(n==1){
+    Insertbegin();
+  }
+  else if(n>count){
+    cout<<"Cannot insert"<<endl;
+  }
+  else{
+    node*newnode;
+    node*prevnode;
+    newnode= new node();
+    prevnode= new node();
+    int p;
+    cout<<"Enter data part of node:-"<<endl;
+    cin>>p;
+    for(int i=0;i<n-1;i++){
+      temp=temp->next; 
+    }
+    newnode->next=temp->next;
+    temp->next=newnode;
+  }
+  }
+void DeleteatPosition()
+{
+  int n,count=0;
+  cout<<"Enter position you want to delete:-"<<endl;
+  cin>>n;
+  node*temp=head;
+  while(count!=n){
+    temp=temp->next;
+    count++;
+    }
+  if(n>count){
+    cout<<"Cannot insert"<<endl;
+  }
+  else{
+    int p;
+    cout<<"Enter data part of node:-"<<endl;
+    cin>>p;
+    temp=head;
+    for(int i=0;i<n-1;i++){
+      temp=temp->next;
+    }
+    temp->next=temp->next->next; 
+    }
+}
+void display()
+{
+  node*temp=head;
+  while(temp!=NULL){
+cout<<temp->data<<" \t "<<endl;
+  temp=temp->next;
+}
+  }
+void Reverse()
+{
+    struct node *prevnode, *currentnode, *nextnode;
+    prevnode = NULL;
+    currentnode = nextnode = head;
+    if (head == NULL)
+    {
+        cout << "\n The list is empty! You can't reverse." << endl;
+    }
+    else
+    {
+        while (nextnode != NULL)
+        {
+            nextnode = nextnode->next;
+            currentnode->next = prevnode;
+            prevnode = currentnode;
+            currentnode = nextnode;
+        }
+        head = prevnode;
+    }
+}
+};
+int main()
+{
+    SLL s;
+    while(1)
+    {
+        cout<<"Enter 1 To Insert Node At Beginning"<<endl;
+        cout<<"Enter 2 To Insert Node At End"<<endl;
+        cout<<"Enter 3 To Delete Node At Beginning"<<endl;
+        cout<<"Enter 4 To Delete Node At End"<<endl;
+        cout<<"Enter 5 To Insert Node At Position"<<endl;
+        cout<<"Enter 6 To Delete Node At Position"<<endl;
+	cout<<"Enter 7 To Display"<<endl;
+  cout<<"Enter 8 to reverse:-"<<endl;    
+        cout<<"Enter 9 To Exit"<<endl;
+        cout<<"Enter Your Choice:-";
+        int n;
+        cin>>n;
+        switch(n)
+        {
+            case 1:
+                s.Insertbegin();
+            break;
+            case 2:
+                s.Insertend();
+            break;
+            case 3:
+                s.Deletebegin();
+            break;
+            case 4:
+                s.Deleteend();
+            break;
+            case 5:
+                s.InsertatPosition();
+            break;
+            case 6:
+                s.DeleteatPosition();
+            break;
+	    case 7:
+		s.display();
+            break;
+          case 8:
+          s.Reverse();
+          break;
+          case 9:
+          exit(0);
+          default:
+          cout<<"invalid choice"<<endl;
+          break;
+        }
+    }
+    return 0;
+}
+

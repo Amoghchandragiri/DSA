@@ -1,0 +1,188 @@
+#include <iostream>
+using namespace std;
+struct Node
+{
+int data;
+Node*next;
+Node*prev;
+};
+class DoubleLinkedlist
+{
+private:
+Node*head=NULL;
+public:
+void Insertbegin(){
+  int n;
+  Node*newnode;
+  cout<<"Enter data part of node:-"<<endl;
+  cin>>n;
+  newnode= new Node();
+  newnode->data=n;
+  newnode->next=head;
+  head=newnode;
+  head->prev=NULL;
+}
+void Insertend(){
+    int n;
+  Node*newnode;
+  cout<<"Enter data part of node:-"<<endl;
+  cin>>n;
+  newnode= new Node();
+  newnode->data=n;
+  if(head==NULL){
+    head=newnode;
+    head->prev=NULL;
+  }
+  else{
+    Node*temp;
+    temp=head;
+    while(temp->next!=NULL){
+      temp=temp->next;
+    }
+    temp->next=newnode;
+    newnode->prev=temp;
+    newnode->next=NULL;
+  } 
+}
+void Deletefirst(){
+  head=head->next;
+  head->prev=NULL;
+}
+void Deleteend(){
+ if(head!=NULL){
+  Node*temp;
+  Node*temp1;
+  temp1=head;
+  temp=head->next;
+  temp1->prev=NULL;
+  while(temp->next!=NULL)
+    {
+      temp1=temp;
+      temp=temp->next;
+    }
+  delete(temp);
+  temp1->next=NULL;
+}
+  else{
+    cout<<"Element not found";
+  }
+  }
+void Insertatposition(){
+  int count=0,n;
+  cout<<"Enter the position you want to insert:-"<<endl;
+  cin>>n;
+  Node*temp=head;
+  if(temp->next!=NULL){
+    temp=temp->next;
+    count++;
+  }
+  else if(n>count){
+    cout<<"Cannot add element"<<endl;
+  }
+  else{
+    Node*newnode;
+    Node*prevnode;
+    newnode=new Node();
+    prevnode=new Node();
+    int p;
+    cout<<"Enter the data part of the node:-"<<endl;
+    cin>>p;
+    newnode->data=p;
+   Node*temp;
+    for(int i=0;i<n-1;i++){
+      temp=temp->next;
+    }
+    temp->next=newnode->next;
+    newnode->prev=temp;
+    temp->next=newnode;
+    newnode->next->prev=newnode;
+  } 
+}
+void Deleteatposition(){
+  int count=0,n;
+  cout<<"Enter the position you want to delete:-"<<endl;
+  cin>>n;
+  Node*temp=head;
+  if(head!=NULL){
+    temp=temp->next;
+    count++;
+  }
+  else if(n>count){
+    cout<<"Cannot delete"<<endl;
+  }
+  else{
+    Node*newnode;
+    Node*prevnode;
+    newnode=new Node();
+    prevnode=new Node();
+    int p;
+    cout<<"Enter the data part of the node:-"<<endl;
+    cin>>p;
+    newnode->data=p;
+    Node*temp;
+    Node*temp1;
+    temp1=head;
+    temp=head->next;
+    for(int i=0;i<n-1;i++){
+      temp=temp->next;
+    }
+    while(temp->next!=NULL){
+      temp1=temp;
+      temp=temp->next;
+    }
+    delete(temp);
+    temp1->next=NULL;
+  }
+  }
+  void display(){
+    Node*temp;
+    temp=head;
+    while(temp!=NULL){
+      cout<<temp->data<<" "<<endl;
+      temp=temp->next;
+    }
+  }
+};
+int main()
+{
+  DoubleLinkedlist obj1;
+  int ch;
+  do{
+    cout<<"1.Insert at beginning"<<endl;
+    cout<<"2.Insert at end:-"<<endl;
+    cout<<"3.Delete at beginning:-"<<endl;
+    cout<<"4.Delete at end:-"<<endl;
+    cout<<"5.Insert at position:-"<<endl;
+    cout<<"6.Delete at position"<<endl;
+    cout<<"7.display"<<endl;
+    cout<<"Enter your choice:-"<<endl;
+    cin>>ch;
+    switch(ch){
+      case 1:
+      obj1.Insertbegin();
+      break;
+      case 2:
+      obj1.Insertend();
+      break;
+      case 3:
+      obj1.Deletefirst();
+      break;
+      case 4:
+      obj1.Deleteend();
+      break;
+      case 5:
+      obj1.Insertatposition();
+      break;
+      case 6:
+      obj1.Deleteatposition();
+      break;
+      case 7:
+      obj1.display();
+      break;
+     default:
+      cout<<"Invalid choice"<<endl;
+      break;
+    }
+  }while(1);
+  return 0;
+}
