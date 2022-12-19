@@ -1,0 +1,135 @@
+#include <iostream>
+#include <cstdlib>
+#define MAX_VALUE 65536
+using namespace std;
+class Node { //node declaration
+   public:
+      int k;
+   Node *l, *r;
+   bool leftTh, rightTh;
+};
+class ThreadedBinaryTree {
+   private:
+   Node *root;
+   public:
+   ThreadedBinaryTree() {
+      root= new Node();
+      root->r= root->l= root;
+      root->leftTh = true;
+      root->k = MAX_VALUE;
+   }
+   void makeEmpty() { //clear tree
+      root= new Node();
+      root->r = root->l = root;
+      root->leftTh = true;
+      root->k = MAX_VALUE;
+   }
+   void insert(int key) {
+      Node *p = root;
+      for (;;) {
+         if (p->k< key) { //move to right thread
+            if (p->rightTh)
+               break;
+            p = p->r;
+         } else if (p->k > key) { // move to left thread
+            if (p->leftTh)
+               break;
+            p = p->l;
+         } else {
+            return;
+         }
+      }
+      Node *temp = new Node();
+      temp->k = key;
+      temp->rightTh= temp->leftTh= true;
+      if (p->k < key) {
+         temp->r = p->r;
+         temp->l= p;
+         p->r = temp;
+         p->rightTh= false;
+      } else {
+         temp->r = p;
+         temp->l = p->l;
+         p->l = temp;
+         p->leftTh = false;
+      }
+   }
+   bool search(int key) {
+      Node *temp = root->l;
+      for (;;) {
+      if (temp->k < key) { //search in left thread
+      if (temp->rightTh)
+            return false;
+         temp = temp->r;
+      } else if (temp->k > key) { //search in right thread
+         if (temp->leftTh)
+            return false;
+         temp = temp->l;
+      } else {
+         return true;
+      }
+   }
+}
+void displayTree() { //print the tree
+   Node *temp = root, *p;
+   for (;;) {
+      p = temp;
+      temp = temp->r;
+      if (!p->rightTh) {
+         while (!temp->leftTh) {
+            temp = temp->l;
+         }
+      }
+      if (temp == root)
+         break;
+      cout<<temp->k<<" ";
+   }
+   cout<<endl;
+}
+};
+int main() {
+   ThreadedBinaryTree tbt;
+   cout<<"ThreadedBinaryTree"<<endl;
+   char ch;
+   int c, v;
+  do{
+      cout<<"1. Insert "<<endl;
+      cout<<"2. Search"<<endl;
+      cout<<"3. Clear"<<endl;
+      cout<<"4. Display"<<endl;
+      cout<<"5. Exit"<<endl;
+      cout<<"Enter Your Choice: ";
+      cin>>c;
+      switch (c) {
+         case 1 :
+            cout<<"Enter integer element to insert: ";
+            cin>>v;
+            tbt.insert(v);
+        break;
+         case 2 :
+            cout<<"Enter integer element to search: ";
+            cin>>v;
+            if (tbt.search(v) == true)
+               cout<<"Element "<<v<<" found in the tree"<<endl;
+            else
+               cout<<"Element "<<v<<" not found in the tree"<<endl;
+        break;
+         case 3 :
+            cout<<"Tree Cleared"<<endl;
+            tbt.makeEmpty();
+        break;
+         case 4:
+            cout<<"Display tree:"<<endl; 
+            tbt.displayTree();
+        break;
+         case 5:
+            exit(1);
+        break;
+         default:
+            cout<<"Invalid type!"<<endl;
+        break;
+      }
+    }while(1);
+   cout<<" "<<endl;
+   return 0;
+}
